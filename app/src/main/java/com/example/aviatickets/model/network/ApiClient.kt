@@ -4,9 +4,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
+    private const val BASE_URL = "https://my-json-server.typicode.com/estharossa"
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("https://my-json-server.typicode.com/estharossa")
+        .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

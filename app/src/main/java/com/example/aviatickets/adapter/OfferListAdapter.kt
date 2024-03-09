@@ -2,24 +2,44 @@ package com.example.aviatickets.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aviatickets.R
 import com.example.aviatickets.databinding.ItemOfferBinding
 import com.example.aviatickets.model.entity.Offer
+import com.example.aviatickets.model.service.FakeService.offerList
 
 class OfferListAdapter : RecyclerView.Adapter<OfferListAdapter.ViewHolder>() {
 
     private val items: ArrayList<Offer> = arrayListOf()
 
     fun setItems(offerList: List<Offer>) {
+
+        val diffResult = DiffUtil.calculateDiff(OffersCallBack(items, offerList ))
         items.clear()
         items.addAll(offerList)
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
 
-        /**
-         * think about recycler view optimization using diff.util
-         */
+
     }
+    private fun sortWithDiffUtil(sortedList: List<Offer>) {
+        val diffResult = DiffUtil.calculateDiff(OffersCallBack(items, sortedList))
+        items.clear()
+        items.addAll(sortedList)
+        diffResult.dispatchUpdatesTo(this)
+    }
+
+    fun sortByPrice(){
+        val sortedList = items.sortedBy { it.price }
+        sortWithDiffUtil(offerList)
+    }
+
+    fun sortByDuration(){
+        val sortedList = items.sortedBy { it.flight.duration }
+        sortWithDiffUtil(sortedList)
+    }
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -36,6 +56,7 @@ class OfferListAdapter : RecyclerView.Adapter<OfferListAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val currentItem = items[position]
         holder.bind(items[position])
     }
 
@@ -72,4 +93,6 @@ class OfferListAdapter : RecyclerView.Adapter<OfferListAdapter.ViewHolder>() {
         )
 
     }
+
+
 }
