@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import com.example.aviatickets.R
 import com.example.aviatickets.adapter.OfferListAdapter
 import com.example.aviatickets.databinding.FragmentOfferListBinding
-import com.example.aviatickets.model.service.FakeService
+import com.example.aviatickets.model.service.MyService
+import kotlinx.coroutines.launch
 
 
 class OfferListFragment : Fragment() {
@@ -37,7 +39,11 @@ class OfferListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupUI()
-        adapter.setItems(FakeService.offerList)
+        lifecycleScope.launch {
+            val offers = MyService.getAllOffers()
+            adapter.setItems(offers)
+        }
+
     }
 
     private fun setupUI() {

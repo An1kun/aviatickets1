@@ -1,6 +1,10 @@
 package com.example.aviatickets.model.entity
 
+import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Airline(
-    val name: String,
-    val code: String
+    @SerializedName("name") val name: String,
+    @SerializedName("code") val code: String
 )

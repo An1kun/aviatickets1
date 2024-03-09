@@ -31,7 +31,7 @@ class OfferListAdapter : RecyclerView.Adapter<OfferListAdapter.ViewHolder>() {
 
     fun sortByPrice(){
         val sortedList = items.sortedBy { it.price }
-        sortWithDiffUtil(offerList)
+        sortWithDiffUtil(sortedList)
     }
 
     fun sortByDuration(){
